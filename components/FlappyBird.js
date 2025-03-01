@@ -1,4 +1,4 @@
-"use client";
+"use client"; // Mark as client component
 import { useState, useEffect, useRef } from "react";
 //import { Game, Sprite } from "react-game-kit";
 import p5 from "p5";
@@ -8,6 +8,7 @@ export default function FlappyBird({ userId }) {
     const canvasRef = useRef();
 
     useEffect(() => {
+        console.log("Initializing p5.js for FlappyBird"); // Debug log
         const sketch = (p) => {
             let birdY = 300;
             let velocity = 0;
@@ -38,9 +39,11 @@ export default function FlappyBird({ userId }) {
             p.mousePressed = () => (velocity = -10);
         };
 
-        new p5(sketch, canvasRef.current);
+        const p5Instance = new p5(sketch, canvasRef.current);
 
+        // Cleanup to avoid multiple instances
         return () => {
+            p5Instance.remove();
             if (score > 0 && score % 10 === 0) {
                 fetch("/api/coins", {
                     method: "POST",
@@ -50,5 +53,10 @@ export default function FlappyBird({ userId }) {
         };
     }, [score, userId]);
 
-    return <div ref={canvasRef} />;
+    return (
+        <div>
+            <div ref={canvasRef} />
+            <p>Score: {score}</p>
+        </div>
+    );
 }
