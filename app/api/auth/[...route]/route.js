@@ -20,3 +20,6 @@ export async function POST(req) {
 
     return new Response(JSON.stringify({ error: "Invalid route" }), { status: 404 });
 }
+// export async function GET() {
+//     return new Response(JSON.stringify({ message: "Use POST for signup/login" }), { status: 405 });
+// }
