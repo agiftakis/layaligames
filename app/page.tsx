@@ -12,18 +12,18 @@ const FlappyBird = dynamic(() => import("@/components/FlappyBird"), { ssr: false
 export default function Home() {
   const [userId, setUserId] = useState(null);
 
+  // If there's no user, show the Auth page
+  if (!userId) {
+    return <Auth setUserId={setUserId} />;
+  }
+
+  // Otherwise, show your main content
   return (
     <div className="p-4">
-      {!userId ? (
-        <Auth setUserId={setUserId} />
-      ) : (
-        <>
-          <CharityDashboard userId={userId} />
-          <Poker userId={userId} />
-          <Roulette userId={userId} />
-          <FlappyBird userId={userId} />
-        </>
-      )}
+      <CharityDashboard userId={userId} />
+      <Poker userId={userId} />
+      <Roulette userId={userId} />
+      <FlappyBird userId={userId} />
     </div>
   );
 }
